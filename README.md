@@ -339,6 +339,7 @@ copy the command that is generated
 should be
 ```
 sudo env PATH=$PATH:/opt/nodejs/bin /opt/nodejs/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+pm2 save
 ```
 at this point the server should auto start at boot time.
 
