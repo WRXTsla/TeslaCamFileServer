@@ -208,25 +208,26 @@ change the server.port:
 ```
 server.port                 = 8080
 ```
-now access [http://raspberrypi:8080/](http://raspberrypi:8080/), from a browser, if it doesn't work use ip address of raspberry pi
+now access [http://raspberrypi:8080/](http://raspberrypi:8080/), from a browser, if it doesn't work, use ip address of the raspberry pi
 
 - username: admin
 - password: secret
 
 go to [Configure hotspot](http://raspberrypi:8080/index.php?page=hostapd_conf) and activate the raspi access point
 - in Basic tab: change SSID to you liking, mine is Morty :D 
-Wireless Mode: 802.11n -2.4 GHz
+- Wireless Mode: 802.11n -2.4 GHz
 - in Security: change PSK
 - in Advanced tab: activate WiFi client AP mode, select your country and save. make sure the "WiFi client AP mode" remains activated after changing tab.
 if all went well start the hotspot
 
 now change the raspap admin password in [Configure Auth](http://raspberrypi:8080/index.php?page=auth_conf)
-you could change the username if needed.
 
-now you should see the newly create access point
+you could also change the username if needed.
+
+now you should see the newly create access point on other devices
 ---
 
-time to add an public ip address to our pi for internal use; the Tesla browser blocks all lan connections, that's why we need an fake public ip address
+time to add an public ip address to our pi for internal use; the Tesla browser blocks all lan connections, that's why we need a fake public ip address
 ```
 sudo nano /etc/rc.local
 ```
@@ -234,7 +235,7 @@ add the following line before  ```exit 0```
 ```
 sudo ifconfig lo:1 93.1.1.1 netmask 255.255.255.255 up
 ```
-i'm using 93.1.1.1 here but can be any pubblic ip address you want.
+i'm using 93.1.1.1 here but it can be any pubblic ip address you want. (you'll loose the possibility to connect to the real ip)
 
 let's also add a alternative hostname
 ```
@@ -321,11 +322,14 @@ npx -v
 sudo apt-get intall ffmpeg 
 ```
 #Install pm2
+---
 ```
 npm install -g pm2
 ```
-#install TeslaCamFileServer
+#Install TeslaCamFileServer
+---
 ```
+cd ~
 git clone https://github.com/WRXTsla/TeslaCamFileServer.git
 ```
 ```
@@ -333,14 +337,15 @@ cd ~/TeslaCamFileServer
 npm install
 pm2 start server.js
 ```
-make pm2 autostart the server
+use pm2 to autostart the server at boot
 ```
 pm2 startup
 ```
-copy the command that is generated
-should be
+copy the command that is generated, should be
 ```
 sudo env PATH=$PATH:/opt/nodejs/bin /opt/nodejs/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+```
+```
 pm2 save
 ```
 at this point the server should auto start at boot time.
@@ -351,7 +356,7 @@ open car browser, and type in http://93.1.1.1:8084
 
 when you need to watch lates video clips,
 press Remount Source wait 2 seconds.
-press Fix and copy video source. on the raspberry pi zero, this will be pretty slow, can take up to 5 minuts dipending on how many new video clips there are.
+press Fix and copy video source; On the raspberry pi zero w, since it has a less powerfull cpu, the process will be pretty slow, it can take up to 5 minuts dipending on how many new video clips there are to be fixed.
 anyway you can start loading videos while it's working in the background.
 
 for the youtube fullscreen hack, you just press the button, you will be redirected to youtube, then press "go to site" and you are back to the app.
