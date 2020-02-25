@@ -322,11 +322,40 @@ sudo apt-get intall ffmpeg
 ```
 npm install -g pm2
 ```
-#install tbrowser and tfileserver
+#install TeslaCamFileServer
 ```
-git clone https://github.com/WRXTsla/TeslaCamStreamingRouter.git ~
+git clone https://github.com/WRXTsla/TeslaCamFileServer.git
 ```
 ```
-cd ~/tfileserver
+cd ~/TeslaCamFileServer
 npm install
+pm2 start server.js
 ```
+make pm2 autostart the server
+```
+pm2 startup
+```
+copy the command that is generated
+should be
+```
+sudo env PATH=$PATH:/opt/nodejs/bin /opt/nodejs/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+```
+at this point the server should auto start at boot time.
+
+attach the raspberry pi to the car, openup phone tether, and connect the car to the raspap wifi.
+
+open car browser, and type in http://93.1.1.1:8084
+
+when you need to watch lates video clips,
+press Remount Source wait 2 seconds.
+press Fix and copy video source. on the raspberry pi zero, this will be pretty slow, can take up to 5 minuts dipending on how many new video clips there are.
+anyway you can start loading videos while it's working in the background.
+
+for the youtube fullscreen hack, you just press the button, you will be redirected to youtube, then press "go to site" and you are back to the app.
+
+things needed in the next update:
+- delete fold files that has already been fixed. since the first drive has only 6GB of space. it will fill up quite quickly.
+- auto installer bash script
+
+That's all for the moment.
+
