@@ -120,8 +120,8 @@ then b for WIN95 FAT32
 /dev/mmcblk0p2       532480  8921087  8388608    4G 83 Linux
 /dev/mmcblk0p3      8921088 21503999 12582912    6G  b W95 FAT32
 ```
-create another primary partition of the remaining space
-in example start sector = 21503999 + 1 = 21504000
+create another primary partition of the remaining space,
+in the example, the start sector is 21503999 + 1 = 21504000
 ```
 /dev/mmcblk0p1          8192    532479    524288  256M  c W95 FAT32 (LBA)
 /dev/mmcblk0p2        532480   8921087   8388608    4G 83 Linux
@@ -144,6 +144,8 @@ sudo modprobe g_mass_storage lux=2 file=/dev/mmcblk0p3,/dev/mmcblk0p4 stall=0 ro
 
 now on your pc install [MiniTool Partition Wizard Free](https://www.partitionwizard.com/free-partition-manager.html) or use Gparted on linux
 to partition and format those new partitions in FAT32
+
+i haven't found a way to do it directly on the raspberry pi, because it can't write a partition inside a partition, if anyone know how to do it, leave a comment, tank you.
 
 TODO: explain how to partition with partittion wizard free
 
