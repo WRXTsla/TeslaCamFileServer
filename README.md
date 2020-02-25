@@ -342,7 +342,7 @@ sudo env PATH=$PATH:/opt/nodejs/bin /opt/nodejs/lib/node_modules/pm2/bin/pm2 sta
 ```
 at this point the server should auto start at boot time.
 
-attach the raspberry pi to the car, openup phone tether, and connect the car to the raspap wifi.
+attach the raspberry pi to the car, open up phone tether, and connect the car to the raspap wifi.
 
 open car browser, and type in http://93.1.1.1:8084
 
