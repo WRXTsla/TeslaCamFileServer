@@ -268,6 +268,7 @@ add this content at the end
 ```
 
 #Nodejs and pi zero w
+(maybe the pi zero w is too slow, need more testing)
 ---
 for raspberry pi 4 use [this](#nodejs-and-pi-4)
 
