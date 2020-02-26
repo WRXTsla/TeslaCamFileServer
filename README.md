@@ -42,7 +42,7 @@ network={
 ```
 you can put as many network={} as you need, ssid and psk are inside quotes
 
-Remove the sdcard, put it in your raspberry pi, and after it boots, ssh into it with [putty](https://www.putty.org/)
+Remove the sdcard, put it in your raspberry pi, connect and power the raspberry pi to over your pc, after it boots, ssh into it with [putty](https://www.putty.org/)
 
 - username: pi
 - password: raspberry
