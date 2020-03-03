@@ -324,7 +324,7 @@ sudo apt-get intall ffmpeg
 #Install pm2
 ---
 ```
-npm install -g pm2
+sudo npm install -g pm2
 ```
 #Install TeslaCamFileServer
 ---
@@ -339,11 +339,7 @@ pm2 start server.js
 ```
 use pm2 to autostart the server at boot
 ```
-pm2 startup
-```
-copy the command that is generated, should be
-```
-sudo env PATH=$PATH:/opt/nodejs/bin /opt/nodejs/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+pm2 startup | grep "sudo env PATH" | bash
 ```
 ```
 pm2 save
