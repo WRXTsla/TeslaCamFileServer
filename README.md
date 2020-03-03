@@ -299,9 +299,8 @@ let's install nodejs for pi 4
 
 for raspberry pi zero w use [this](#nodejs-and-pi-zero-w)
 ```
-curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
-https://nodejs.org/dist/v12.15.0/node-v12.15.0-linux-arm64.tar.xz
-sudo apt install nodejs
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
 ```
 check installation by
 ```
