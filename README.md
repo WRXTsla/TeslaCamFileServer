@@ -16,6 +16,23 @@ Download the [latest release of Raspbian](https://www.raspberrypi.org/downloads/
 
 Burn the image with [Rufus](https://rufus.ie/) or a software of your preference
 
+
+#Auto install
+---
+Open the newly created sdcard's boot drive and copy the content of [installer](https://github.com/WRXTsla/TeslaCamFileServer/tree/master/installer) overwriting cmdline.txt and adding wifi info to wpa_supplicant.conf
+
+Remove the sdcard, put it in your raspberry pi, connect and power the raspberry pi from usb port of your pc, after it boots, ssh into it with [putty](https://www.putty.org/) or another ssh client
+
+- username: pi
+- password: raspberry
+
+type in this command in console
+```
+sudo /boot/pisetup.sh
+```
+
+#Manual install
+---
 Open the newly created sdcard's boot drive and remove the content ```init=/usr/lib/raspi-config/init_resize.sh``` from cmdline.txt
 
 Add ```dtoverlay=dwc2``` to the end of config.txt
