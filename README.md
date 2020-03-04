@@ -1,5 +1,8 @@
 # TeslaCamFileServer
 A Raspberry Pi project to playback TeslaCam Sentry Mode videos directly on the Tesla Car Browser, using ideas from (marcone / teslausb) + (billz / raspap-webgui) + (BobStrogg / teslacam-browser) + https://sentrycam.appspot.com/
+
+![](https://i.imgur.com/tBg4JGM.jpg)
+
 ------------------
 What is needed:
 
