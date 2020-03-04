@@ -19,7 +19,7 @@ Burn the image with [Rufus](https://rufus.ie/) or a software of your preference
 
 #Auto install
 ---
-Open the newly created sdcard's boot drive and copy the content of [installer](https://github.com/WRXTsla/TeslaCamFileServer/tree/master/installer) overwriting cmdline.txt and adding wifi info to wpa_supplicant.conf
+Open the newly created sdcard's boot drive and copy the content of [installer](https://github.com/WRXTsla/TeslaCamFileServer/tree/master/installer), overwriting cmdline.txt and adding wifi info to wpa_supplicant.conf
 
 Remove the sdcard, put it in your raspberry pi, connect and power the raspberry pi from usb port of your pc, after it boots, ssh into it with [putty](https://www.putty.org/) or another ssh client
 
