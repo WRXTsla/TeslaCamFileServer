@@ -33,45 +33,21 @@ app.get('/remount', function(req, res) {
 })
 
 app.get('/remux', function(req, res) {
-  var filelist =  remuxFindInDir(sentrycampath, /\.mp4$/)
-  res.json({filelist: filelist})
-})
-
-function remuxFindInDir (dir, filter, fileList = []) {
-  const files = fs.readdirSync(dir);
-
-  files.forEach((file) => {
-
-    const filePath = path.join(dir, file);
-    const fileStat = fs.lstatSync(filePath);
-
-    if (fileStat.isDirectory()) {
-       if (! fs.existsSync(filePath.replace(new RegExp("^" + sentrycampath ), tcampath ))) {
-	 console.log('mkdir' + filePath.replace(new RegExp("^" + sentrycampath ), tcampath ))
-         fs.mkdirSync(filePath.replace(new RegExp("^" + sentrycampath), tcampath), { recursive: true })
-       }
-      remuxFindInDir(filePath, filter, fileList);
-    } else if (filter.test(filePath)) {
-	console.log('remux' +  filePath.replace(new RegExp("^" + sentrycampath ), tcampath ))
-	if (! fs.existsSync(filePath.replace(new RegExp("^" + sentrycampath ), tcampath ))) {
-        exec('ffmpeg -err_detect ignore_err -i ' + filePath + ' -c copy ' + filePath.replace(new RegExp("^" + sentrycampath ), tcampath ),
-            (error, stdout, stderr) => {
+   exec('sh upmp4.sh',
+     (error, stdout, stderr) => {
         console.log(stdout);
         console.log(stderr);
          if (error !== null) {
            console.log(`exec error: ${error}`);
+           res.send("error");
          }
       }).on('exit', code => {
-        console.log(code)
-      });
-
-        fileList.push({'commands':  filePath + " -c copy " + filePath.replace(new RegExp("^" + sentrycampath ), tcampath )} );
-    }}
-  });
-
-  return fileList;
-}
-
+	console.log(code)
+	if (code === 0) {
+	res.send('success');
+        }
+});
+})
 
 app.get('/allfiles', function(req, res) {
   console.log( findInDir(tcampath, /\.mp4$/) )
@@ -96,48 +72,6 @@ function findInDir (dir, filter, fileList = []) {
 
   return fileList;
 }
-
-app.use('/video', function(req, res) {
-  if (req.url.endsWith('.mp4')){
-	  const path = tcampath + req.url
-	  const stat = fs.statSync(path)
-	  const fileSize = stat.size
-	  const range = req.headers.range
-
-	  if (range) {
-	    const parts = range.replace(/bytes=/, "").split("-")
-	    const start = parseInt(parts[0], 10)
-	    const end = parts[1]
-	      ? parseInt(parts[1], 10)
-	      : fileSize-1
-
-	    if(start >= fileSize) {
-	      res.status(416).send('Requested range not satisfiable\n'+start+' >= '+fileSize);
-	      return
-	    }
-	    const chunksize = (end-start)+1
-	    const file = fs.createReadStream(path, {start, end})
-	    const head = {
-	      'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-	      'Accept-Ranges': 'bytes',
-	      'Content-Length': chunksize,
-	      'Content-Type': 'video/mp4',
-	    }
-
-	    res.writeHead(206, head)
-	    file.pipe(res)
-	  } else {
-	    const head = {
-	      'Content-Length': fileSize,
-	      'Content-Type': 'video/mp4',
-	    }
-	    res.writeHead(200, head)
-	    fs.createReadStream(path).pipe(res)
-	  }
-  } else {
-    express.static( tcampath ), serveIndex( tcampath, { 'icons': true } ) 
-  }
-})
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.get('/', function(req, res) {
