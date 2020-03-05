@@ -2,6 +2,10 @@
 var_revision=`sudo cat /proc/cpuinfo | grep 'Revision' | awk '{print $3}'`
 #add pi usb modules
 echo "dtoverlay=dwc2" | sudo tee -a /boot/config.txt
+echo "dtoverlay=pi3-disable-bt" | sudo tee -a /boot/config.txt
+echo "dtparam=act_led_trigger=none" | sudo tee -a /boot/config.txt
+echo "dtparam=act_led_activelow=on" | sudo tee -a /boot/config.txt
+
 echo "dwc2" | sudo tee -a /etc/modules
 echo "libcomposite" | sudo tee -a /etc/modules
 sudo apt-get install parted
@@ -74,19 +78,22 @@ sudo apt-get autoremove
 sudo apt-get autoclean
 
 #install nodejs
-if [var_revision = "9000C1"]
-then 
-   wget -O - https://raw.githubusercontent.com/sdesalas/node-pi-zero/master/install-node-v.last.sh | bash
+if [ "$var_revision" == "9000c1" ]; then 
+   wget -O - https://raw.githubusercontent.com/sdesalas/node-pi-zero/master/install-node-v.last.sh | sudo bash -
+   wait
    echo "export PATH=$PATH:/opt/nodejs/bin" | sudo tee -a ~/.profile
 else
    curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+   wait
    sudo apt-get install -y nodejs
 fi
 #Install npx
 sudo npm i -g npx
+wait
 
 #Install pm2
 sudo npm install -g pm2
+wait
 
 #Install ffmpeg
 sudo apt-get --yes --force-yes install ffmpeg 
@@ -106,6 +113,7 @@ sudo curl -sL https://install.raspap.com | bash -s -- --yes
 sudo sed -i -e 's/server.port                 = 80/server.port                 = 8080/g' /etc/lighttpd/lighttpd.conf
 sudo sed -i -e '/^exit 0/i sudo ifconfig lo:1 93.1.1.1 netmask 255.255.255.255 up' /etc/rc.local
 sudo sed -i -e '/^exit 0/i sudo service procps restart' /etc/rc.local
+sudo sed -i -e '/^exit 0/i sudo /opt/vc/bin/tvservice -o' /etc/rc.local
 echo "93.1.1.1        myteslapicam.org" | sudo tee -a /etc/hosts
 
 echo "net.ipv6.conf.all.disable_ipv6=1
@@ -134,7 +142,6 @@ make sure the "WiFi client AP mode" remains activated after switching tabs.
 for future access use port 8080 http://${var_current_ip%%*( )}:8080/
 "
 read -p "Press [Enter] key to continue..."
-sudo wpa_supplicant -B -Dnl80211,wext -c/etc/wpa_supplicant/wpa_supplicant.conf -iwlan0
 
 #write out current crontab
 crontab -l > mycron
@@ -144,6 +151,6 @@ echo "*/15 * * * * /boot/cronmp4.sh" >> mycron
 crontab mycron
 rm mycron
 
-
 read -p "Finished, remember to change default password using sudo raspi-config
 Press [Enter] key to continue..."
+sudo wpa_supplicant -B -Dnl80211,wext -c/etc/wpa_supplicant/wpa_supplicant.conf -iwlan0
