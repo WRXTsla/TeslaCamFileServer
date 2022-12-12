@@ -14,7 +14,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "directory-tree": "^2.2.4",
-    "express": "^4.15.3",
+    "express": "^4.17.3",
     "nodemon": "^1.11.0",
     "save": "^2.4.0",
     "serve-index": "^1.9.1"
